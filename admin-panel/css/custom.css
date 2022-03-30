@@ -1,0 +1,123 @@
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+a {
+    color: inherit !important;
+    text-decoration: none;
+}
+
+#sideMenu {
+    padding-left: 0;
+}
+
+#sideMenu>li {
+    list-style: none;
+    padding: 10px;
+    font-size: 20px;
+    transition: 1s;
+    cursor: pointer;
+    position: relative;
+    z-index: 99999999;
+}
+
+#sideMenu .fa-sort-down {
+    position: absolute;
+    right: 15px;
+}
+
+#sideMenu>li:hover {
+    background-color: #212529;
+}
+
+.child {
+    list-style: none;
+    margin-top: 10px;
+    padding: 5px 10px;
+    display: none;
+}
+
+#myAlert {
+    visibility: hidden;
+    position: fixed;
+    color: white;
+    border-radius: 10px;
+    top: 0;
+    right: 0;
+    transform: translate(-15px, 15px);
+    background: #d62828;
+    border-radius: 10px;
+    overflow: hidden
+}
+
+.myAlert-text-icon {
+    align-items: stretch;
+    box-shadow: 0 1px 1px rgb(10 10 10 / 10%);
+    display: flex;
+    max-width: 250px;
+}
+
+.myAlert-message {
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+    font-weight: 700;
+    padding: 15px 25px;
+}
+
+.close {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background: 0 0;
+    border: none;
+    color: currentColor;
+    font-family: inherit;
+    font-size: 1em;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+}
+
+#myAlert.show {
+    visibility: visible;
+}
+
+#myAlert.show {
+    animation: show 0.5s forwards;
+}
+
+@keyframes show {
+    0% {
+        transform: translate(-15px, 15px) scale(0);
+    }
+    50% {
+        transform: translate(-15px, 15px) scale(1.2);
+    }
+    70% {
+        transform: translate(-15px, 15px) scale(0.9);
+    }
+    100% {
+        transform: translate(-15px, 15px) scale(1);
+    }
+}
+
+#myAlertBar {
+    height: 2px;
+    background-color: #ddd;
+    color: white;
+}
+
+#myAlertProgress {
+    background-color: #d62828;
+    width: 100%
+}
+
+.required label::after {
+    content: " *";
+    color: red;
+}
