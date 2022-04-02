@@ -5,16 +5,44 @@ $error = 0;
 /** 0: no error , 1: yes error */
 $msg = "";
 if (isset($_POST['save'])) {
-    $title = $_POST['title'];
-    $description = $_POST['description'];
+    // p($_POST);
+    $title = mysqli_escape_string($conn, $_POST['title']);
+    $description = mysqli_escape_string($conn, $_POST['description']);
+    // echo $title;
+    // echo $description;
     if (!empty($title) && !empty($description)) {
         // insert data
+        /**
+         * Insert query: INSERT INTO table_name SET col1 = val1, col2 = val2, col3 = val3, ... coln = valn;
+         * Step 1: Prepare the query
+         * Step 2: Execute the query
+         */
+        $qry = "INSERT INTO news SET title = '$title', description = '$description'";
+        try {
+            $flag = mysqli_query($conn, $qry);
+            if ($flag) {
+                header("LOCATION:view-news.php");
+            }
+            // all well
+        } catch (\Exception $err) {
+            $error = 1;
+            echo $err->getMessage();
+            $msg = "Internal server error";
+        }
+   
+        // if ($flag == true) {
+        //     // all well
+        // } else {
+        //     $error = 1;
+        //     $msg = "Internal server error";
+        // }
     } else {
         $error = 1;
         $msg = "Please fill all the required fields";
     }
 }
 include "layouts/header.php";
+// die;
 ?>
 <div class="col-10" style="min-height: 100vh;">
     <div class="container-fluid">
@@ -39,7 +67,6 @@ include "layouts/header.php";
         <div class="row">
             <div class="col-12 mt-2">
                 <div class="card">
-                    <img class="card-img-top" src="holder.js/100px180/" alt="">
                     <div class="card-body">
                         <form method="post" class="needs-validation" novalidate>
                             <div class="mb-3 required">
