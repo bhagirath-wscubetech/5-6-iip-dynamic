@@ -63,6 +63,7 @@
         }
     }
 </script>
+<script src="https://kit.fontawesome.com/bf520e6492.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
