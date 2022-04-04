@@ -61,7 +61,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="">
+                                <a href="view-news.php">
                                     View
                                 </a>
                             </li>

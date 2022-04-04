@@ -5,6 +5,25 @@ $error = 0;
 /** 0: no error , 1: yes error */
 $msg = "";
 
+$id = $_GET['id'];
+if (isset($id)) {
+    // delete query
+    /**
+     * Step 1: Prepare the query
+     * Step 2: Execute the query
+     */
+    $del = "DELETE FROM news WHERE id = $id";
+    try {
+        $flag = mysqli_query($conn, $del);
+        if ($flag) {
+            $error = 0;
+            $msg = "Data deleted successfully";
+        }
+    } catch (\Exception $err) {
+        $error = 1;
+        $msg = "Unable to delete the data";
+    }
+}
 include "layouts/header.php";
 ?>
 <div class="col-10" style="min-height: 100vh;">
@@ -16,7 +35,8 @@ include "layouts/header.php";
             <?php
             if (!empty($msg)) :
             ?>
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <!-- ternary operator -->
+                <div class="alert <?php echo $error == 1 ? 'alert-warning' : 'alert-success' ?> alert-dismissible fade show" role="alert">
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     <strong>
                         <?php echo $msg ?>
@@ -28,6 +48,13 @@ include "layouts/header.php";
 
         </div>
         <div class="row">
+            <div class="col-12 text-end">
+                <a href="add-news.php">
+                    <button class="btn btn-primary">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </a>
+            </div>
             <div class="col-12 mt-2">
                 <div class="card">
                     <div class="card-body">
@@ -92,9 +119,12 @@ include "layouts/header.php";
                                             ?>
                                         </td>
                                         <td>
-                                            <button class="btn btn-danger">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
+                                            <a href="view-news.php?id=<?php echo $data['id'] ?>">
+                                                <!-- get request -->
+                                                <button class="btn btn-danger">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </a>
                                             <button class="btn btn-primary">
                                                 <i class="fa fa-pencil"></i>
                                             </button>
@@ -103,6 +133,16 @@ include "layouts/header.php";
                                 <?php
                                     $i++;
                                 endwhile;
+                                ?>
+
+                                <?php
+                                if ($i == 1) {
+                                ?>
+                                    <tr>
+                                        <td colspan="6" align="center">No data found</td>
+                                    </tr>
+                                <?php
+                                }
                                 ?>
                             </tbody>
                         </table>
