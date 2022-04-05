@@ -7,21 +7,41 @@ $msg = "";
 
 $id = $_GET['id'];
 if (isset($id)) {
-    // delete query
-    /**
-     * Step 1: Prepare the query
-     * Step 2: Execute the query
-     */
-    $del = "DELETE FROM news WHERE id = $id";
-    try {
-        $flag = mysqli_query($conn, $del);
-        if ($flag) {
-            $error = 0;
-            $msg = "Data deleted successfully";
+    $status = $_GET['status'];
+    if (isset($status)) {
+        // change status
+        /**
+         * update query
+         * Syntax: UPDATE <table> SET <col1> = <newData>, <col2> = <newData> ... , <coln> = <newData>
+         */
+        $upd = "UPDATE news SET status = $status WHERE id = $id";
+        try {
+            $flag = mysqli_query($conn, $upd);
+            if ($flag) {
+                $error = 0;
+                $msg = "Status changed successfully";
+            }
+        } catch (\Exception $err) {
+            $error = 1;
+            $msg = "Unable to update";
         }
-    } catch (\Exception $err) {
-        $error = 1;
-        $msg = "Unable to delete the data";
+    } else {
+        // delete query
+        /**
+         * Step 1: Prepare the query
+         * Step 2: Execute the query
+         */
+        $del = "DELETE FROM news WHERE id = $id";
+        try {
+            $flag = mysqli_query($conn, $del);
+            if ($flag) {
+                $error = 0;
+                $msg = "Data deleted successfully";
+            }
+        } catch (\Exception $err) {
+            $error = 1;
+            $msg = "Unable to delete the data";
+        }
     }
 }
 include "layouts/header.php";
@@ -67,7 +87,8 @@ include "layouts/header.php";
                                 *: Select all columns
                         -->
                         <?php
-                        $sel = "SELECT * FROM news";
+                        // ORDER BY <col_name> ASC | DESC
+                        $sel = "SELECT * FROM news ORDER BY id DESC";
                         $exe = mysqli_query($conn, $sel);
                         /**
                          * Functions to fetch the data
@@ -106,14 +127,19 @@ include "layouts/header.php";
                                             <?php echo $data['created_at']; ?>
                                         </td>
                                         <td>
+
                                             <?php
                                             if ($data['status'] == 1) :
                                             ?>
-                                                <button class="btn btn-success">Active</button>
+                                                <a href="view-news.php?id=<?php echo $data['id'] ?>&status=0">
+                                                    <button class="btn btn-success">Active</button>
+                                                </a>
                                             <?php
                                             else :
                                             ?>
-                                                <button class="btn btn-warning">Inactive</button>
+                                                <a href="view-news.php?id=<?php echo $data['id'] ?>&status=1">
+                                                    <button class="btn btn-warning">Inactive</button>
+                                                </a>
                                             <?php
                                             endif;
                                             ?>

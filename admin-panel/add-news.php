@@ -26,10 +26,10 @@ if (isset($_POST['save'])) {
             // all well
         } catch (\Exception $err) {
             $error = 1;
-            echo $err->getMessage();
+           // echo $err->getMessage();
             $msg = "Internal server error";
         }
-   
+
         // if ($flag == true) {
         //     // all well
         // } else {

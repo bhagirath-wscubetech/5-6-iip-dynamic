@@ -1,4 +1,6 @@
 <?php
+include "app/database.php";
+include "app/helper.php";
 include "layouts/header.php";
 ?>
 <!-- right part of the middle portion starts here -->

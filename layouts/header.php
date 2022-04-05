@@ -1,4 +1,3 @@
-<?php include "app/helper.php" ?>
 <!DOCTYPE html>
 <html>
 
@@ -31,7 +30,7 @@
             </div>
         </div>
         <!-- middle portion with  links, new , banner and course starts here -->
-        <div class="middle-container" style="height: 735px;">
+        <div class="middle-container" style="height: 850px;">
             <!-- left part of the middle portion starts here -->
             <div class="middle-left">
                 <div class="menu-item-left"><a href="index.php">Home</a></div>
@@ -45,11 +44,20 @@
                         News
                     </div>
                     <ul class="news-list">
-                        <li><img src="images/dot.jpg"> ipsum dolor sit amet, </li>
-                        <li><img src="images/dot.jpg"> ipsum dolor sit amet, </li>
-                        <li><img src="images/dot.jpg"> ipsum dolor sit amet, </li>
-                        <li><img src="images/dot.jpg"> ipsum dolor sit amet, </li>
-                        <li><img src="images/dot.jpg"> ipsum dolor sit amet, </li>
+                        <?php
+                        $selAllNews = "SELECT * FROM news WHERE status = 1 ORDER BY id DESC";
+                        $exeAllNews = mysqli_query($conn, $selAllNews);
+                        while ($allNewsData = mysqli_fetch_assoc($exeAllNews)) {
+                        ?>
+                            <li>
+                                <img src="images/dot.jpg">
+                                <a href="news.php?id=<?php echo $allNewsData['id'] ?>">
+                                    <?php echo $allNewsData['title'] ?>
+                                </a>
+                            </li>
+                        <?php
+                        }
+                        ?>
                     </ul>
                 </div>
             </div>
