@@ -4,6 +4,13 @@ include "../app/helper.php";
 $error = 0;
 /** 0: no error , 1: yes error */
 $msg = "";
+$id = $_GET['id'];
+if (isset($id)) {
+    // get the data from the data base
+    $sel = "SELECT * FROM news WHERE id = $id";
+    $exe = mysqli_query($conn, $sel);
+    $data = mysqli_fetch_assoc($exe);
+}
 if (isset($_POST['save'])) {
     // p($_POST);
     $title = mysqli_escape_string($conn, $_POST['title']);
@@ -17,7 +24,12 @@ if (isset($_POST['save'])) {
          * Step 1: Prepare the query
          * Step 2: Execute the query
          */
-        $qry = "INSERT INTO news SET title = '$title', description = '$description'";
+        if(isset($id)){
+            //update
+            $qry = "UPDATE news SET title = '$title', description = '$description' WHERE id = $id";
+        }else{
+            $qry = "INSERT INTO news SET title = '$title', description = '$description'";
+        }
         try {
             $flag = mysqli_query($conn, $qry);
             if ($flag) {
@@ -26,7 +38,7 @@ if (isset($_POST['save'])) {
             // all well
         } catch (\Exception $err) {
             $error = 1;
-           // echo $err->getMessage();
+            // echo $err->getMessage();
             $msg = "Internal server error";
         }
 
@@ -48,7 +60,7 @@ include "layouts/header.php";
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 text-center mt-2">
-                <div class="h2">Add News </div>
+                <div class="h2"> <?php echo isset($id) ? 'Update' : 'Add' ?> News </div>
             </div>
             <?php
             if (!empty($msg)) :
@@ -71,7 +83,7 @@ include "layouts/header.php";
                         <form method="post" class="needs-validation" novalidate>
                             <div class="mb-3 required">
                                 <label for="" class="form-label">Title</label>
-                                <input type="text" name="title" id="" required class="form-control" placeholder="" aria-describedby="helpId">
+                                <input type="text" name="title" value="<?php echo $data['title']?>" id="" required class="form-control" placeholder="" aria-describedby="helpId">
                                 <div class="valid-feedback">
                                     Looks good!
                                 </div>
@@ -81,7 +93,7 @@ include "layouts/header.php";
                             </div>
                             <div class="mb-3 required">
                                 <label for="" class="form-label">Description</label>
-                                <textarea name="description" required class="form-control" id="" cols="30" rows="10"></textarea>
+                                <textarea id="editor" name="description" required class="form-control" cols="30" rows="10"><?php echo $data['description']?></textarea>
                                 <div class="valid-feedback">
                                     Looks good!
                                 </div>
@@ -90,7 +102,7 @@ include "layouts/header.php";
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <button class="btn btn-primary" type="submit" name="save">Save</button>
+                                <button class="btn btn-primary" type="submit" name="save"> <?php echo isset($id) ? 'Update' : 'Add' ?></button>
                                 <button class="btn btn-warning" type="reset">Reset</button>
                             </div>
                         </form>
@@ -132,4 +144,8 @@ include "layouts/footer.php";
     alertList.forEach(function(alert) {
         new bootstrap.Alert(alert)
     })
+</script>
+<script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( 'editor' );
 </script>

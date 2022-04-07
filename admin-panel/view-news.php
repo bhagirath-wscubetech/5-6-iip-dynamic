@@ -151,9 +151,11 @@ include "layouts/header.php";
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                             </a>
-                                            <button class="btn btn-primary">
-                                                <i class="fa fa-pencil"></i>
-                                            </button>
+                                            <a href="add-news.php?id=<?php echo $data['id'] ?>">
+                                                <button class="btn btn-primary">
+                                                    <i class="fa fa-pencil"></i>
+                                                </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 <?php
