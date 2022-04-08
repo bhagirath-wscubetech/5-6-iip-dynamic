@@ -2,6 +2,9 @@
 include "app/database.php";
 include "app/helper.php";
 include "layouts/header.php";
+$sel = "SELECT * FROM account_setting";
+$exe = mysqli_query($conn, $sel);
+$data = mysqli_fetch_assoc($exe);
 ?>
 <!-- right part of the middle portion starts here -->
 <div class="middle-right">
@@ -14,29 +17,29 @@ include "layouts/header.php";
 		<div class="contact-row">
 			<div class="contact-row-left">
 				<img src="images/phone.png">
-				<p><b>Phone:</b> 0291-2468122, +91-9269698122</p>
+				<p><b>Phone:</b> <?php echo $data['contact_primary'] ?>, <?php echo $data['contact_seconday'] ?></p>
 				<p> <b>Email ID:</b>
 					<a href="http://www.iipacademy.com/" target="blank">
-						<font style="color:#00a8ec; cursor: pointer;">info@iipacademy.com </font>
+						<font style="color:#00a8ec; cursor: pointer;"> <?php echo $data['email'] ?></font>
 					</a>
 				</p>
 				<p> <b>Website:</b>
 					<a href="http://www.iipacademy.com" target="blank">
-						<font style="color:#00a8ec; cursor: pointer;">www.iipacademy.com </font>
+						<font style="color:#00a8ec; cursor: pointer;"> <?php echo $data['website_link'] ?> </font>
 					</a>
 				</p>
 			</div>
 			<div class="contact-row-right">
 				<img src="images/address-pin.png">
 				<p>
-					Ground Floor, Laxmi Tower, Bhaskar Circle, Ratanada, Jodhpur (Raj.)
+					<?php echo $data['address'] ?>
 				</p>
 			</div>
 
 		</div>
 		<h1 style="color: #343130;">Find Us On Map</h1>
 		<div class="contact-map">
-			<img src="images/map.png" />
+			<?php echo $data['map'] ?>
 		</div>
 
 	</div>

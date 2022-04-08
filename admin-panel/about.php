@@ -4,50 +4,32 @@ include "../app/helper.php";
 $error = 0;
 /** 0: no error , 1: yes error */
 $msg = "";
-$id = $_GET['id'];
-if (isset($id)) {
-    // get the data from the data base
-    $sel = "SELECT * FROM news WHERE id = $id";
-    $exe = mysqli_query($conn, $sel);
-    $data = mysqli_fetch_assoc($exe);
-}
+// get the data from the data base
+$sel = "SELECT * FROM about_us";
+$exe = mysqli_query($conn, $sel);
+$data = mysqli_fetch_assoc($exe);
 if (isset($_POST['save'])) {
     // p($_POST);
-    $title = mysqli_escape_string($conn, $_POST['title']);
-    $description = mysqli_escape_string($conn, $_POST['description']);
+    $content = mysqli_escape_string($conn, $_POST['content']);
     // echo $title;
     // echo $description;
-    if (!empty($title) && !empty($description)) {
+    if (!empty($content)) {
         // insert data
         /**
          * Insert query: INSERT INTO table_name SET col1 = val1, col2 = val2, col3 = val3, ... coln = valn;
          * Step 1: Prepare the query
          * Step 2: Execute the query
          */
-        if (isset($id)) {
-            //update
-            $qry = "UPDATE news SET title = '$title', description = '$description' WHERE id = $id";
-        } else {
-            $qry = "INSERT INTO news SET title = '$title', description = '$description'";
-        }
+
+        $qry = "UPDATE about_us SET about_content = '$content'";
         try {
             $flag = mysqli_query($conn, $qry);
-            if ($flag) {
-                header("LOCATION:view-news.php");
-            }
             // all well
         } catch (\Exception $err) {
             $error = 1;
             // echo $err->getMessage();
             $msg = "Internal server error";
         }
-
-        // if ($flag == true) {
-        //     // all well
-        // } else {
-        //     $error = 1;
-        //     $msg = "Internal server error";
-        // }
     } else {
         $error = 1;
         $msg = "Please fill all the required fields";
@@ -60,7 +42,7 @@ include "layouts/header.php";
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 text-center mt-2">
-                <div class="h2"> <?php echo isset($id) ? 'Update' : 'Add' ?> News </div>
+                <div class="h2"> Update About Us </div>
             </div>
             <?php
             if (!empty($msg)) :
@@ -82,27 +64,17 @@ include "layouts/header.php";
                     <div class="card-body">
                         <form method="post" class="needs-validation" novalidate>
                             <div class="mb-3 required">
-                                <label for="" class="form-label">Title</label>
-                                <input type="text" name="title" value="<?php echo $data['title'] ?>" id="" required class="form-control" placeholder="" aria-describedby="helpId">
+                                <label for="" class="form-label">Content</label>
+                                <textarea id="editor" name="content" required class="form-control" cols="30" rows="10"><?php echo $data['about_content'] ?></textarea>
                                 <div class="valid-feedback">
                                     Looks good!
                                 </div>
                                 <div class="invalid-feedback">
-                                    Title is required
-                                </div>
-                            </div>
-                            <div class="mb-3 required">
-                                <label for="" class="form-label">Description</label>
-                                <textarea id="editor" name="description" required class="form-control" cols="30" rows="10"><?php echo $data['description'] ?></textarea>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Description is required
+                                    Content is required
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <button class="btn btn-primary" type="submit" name="save"> <?php echo isset($id) ? 'Update' : 'Add' ?></button>
+                                <button class="btn btn-primary" type="submit" name="save"> Update </button>
                                 <button class="btn btn-warning" type="reset">Reset</button>
                             </div>
                         </form>

@@ -52,6 +52,24 @@
                 <ul id="sideMenu">
                     <li>
                         <i class="far fa-window-maximize"></i>
+                        Pages
+                        <i class="fas fa-sort-down"></i>
+                        <ul class="child bg-dark">
+                            <li>
+                                <a href="about.php">
+                                    About Us
+                                </a>
+                            </li>
+                            <li>
+                                <a href="account-setting.php">
+                                    Account Settings
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <i class="far fa-window-maximize"></i>
                         News
                         <i class="fas fa-sort-down"></i>
                         <ul class="child bg-dark">
