@@ -63,7 +63,11 @@
         }
     }
 </script>
+<script src="js/dropify.min.js"></script>
 <script src="https://kit.fontawesome.com/bf520e6492.js" crossorigin="anonymous"></script>
+<script>
+    $('.dropify').dropify();
+</script>
 </body>
 
 </html>
