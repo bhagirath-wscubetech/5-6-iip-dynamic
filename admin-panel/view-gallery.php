@@ -14,7 +14,7 @@ if (isset($id)) {
          * update query
          * Syntax: UPDATE <table> SET <col1> = <newData>, <col2> = <newData> ... , <coln> = <newData>
          */
-        $upd = "UPDATE news SET status = $status WHERE id = $id";
+        $upd = "UPDATE gallery SET status = $status WHERE id = $id";
         try {
             $flag = mysqli_query($conn, $upd);
             if ($flag) {
@@ -31,8 +31,12 @@ if (isset($id)) {
          * Step 1: Prepare the query
          * Step 2: Execute the query
          */
-        $del = "DELETE FROM news WHERE id = $id";
+        $selImage = "SELECT image_name FROM gallery WHERE id = $id";
+        $exeImage = mysqli_query($conn, $selImage);
+        $dataImage = mysqli_fetch_assoc($exeImage);
+        $del = "DELETE FROM gallery WHERE id = $id";
         try {
+            unlink("../images/gallery/" . $dataImage['image_name']);
             $flag = mysqli_query($conn, $del);
             if ($flag) {
                 $error = 0;

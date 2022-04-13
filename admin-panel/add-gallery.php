@@ -80,7 +80,7 @@ include "layouts/header.php";
                             </div>
                             <div class="mb-3 required">
                                 <label for="" class="form-label">Image</label>
-                                <input type="file" required data-allowed-file-extensions="png gif jpg jpeg"  class="dropify" name="image" class="form-control">
+                                <input type="file" required data-allowed-file-extensions="png gif jpg jpeg" class="dropify" name="image" class="form-control">
                             </div>
                             <div class="mb-3">
                                 <button class="btn btn-primary" type="submit" name="save"> <?php echo isset($id) ? 'Update' : 'Add' ?></button>
