@@ -9,7 +9,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="css/dropify.min.css"/>
+    <link rel="stylesheet" href="css/dropify.min.css" />
     <link rel="stylesheet" href="css/custom.css">
     <title>Admin Panel</title>
 </head>
@@ -99,6 +99,23 @@
                             </li>
                             <li>
                                 <a href="view-gallery.php">
+                                    View
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <i class="far fa-window-maximize"></i>
+                        Course
+                        <i class="fas fa-sort-down"></i>
+                        <ul class="child bg-dark">
+                            <li>
+                                <a href="add-course.php">
+                                    Add
+                                </a>
+                            </li>
+                            <li>
+                                <a href="view-course.php">
                                     View
                                 </a>
                             </li>
