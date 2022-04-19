@@ -2,6 +2,12 @@
 include "../app/database.php";
 include "../app/helper.php";
 $error = 0;
+$page = $_GET['page'] ?? 0;
+$limit = 20;
+$start = $page * $limit;
+// $start = 0 * 10 = 0
+// $start = 1 * 10 = 10
+// $start = 2 * 10 = 20
 /** 0: no error , 1: yes error */
 $msg = "";
 
@@ -88,7 +94,8 @@ include "layouts/header.php";
                         -->
                         <?php
                         // ORDER BY <col_name> ASC | DESC
-                        $sel = "SELECT * FROM news ORDER BY id DESC";
+                        $sel = "SELECT * FROM news ORDER BY id ASC LIMIT $start,$limit";
+                        // start, per page
                         $exe = mysqli_query($conn, $sel);
                         /**
                          * Functions to fetch the data
@@ -176,6 +183,44 @@ include "layouts/header.php";
                         </table>
                     </div>
                 </div>
+            </div>
+            <?php
+            $totalData = mysqli_num_rows(
+                mysqli_query(
+                    $conn,
+                    "SELECT id FROM news"
+                )
+            );
+            $totalPage = ceil($totalData / $limit);
+            // 5/2 -> ceil(2.5) -> 3 , floor(2.5) -> 2
+            ?>
+            <div class="col-12 mt-2">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="view-news.php?page=<?php echo $page - 1; ?>" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <?php
+                        for ($n = 0; $n < $totalPage; $n++) :
+                        ?>
+                            <li class="page-item <?php echo $n == $page ? 'active text-white' : '' ?>">
+                                <a class="page-link" href="view-news.php?page=<?php echo $n ?>">
+                                    <?php echo $n + 1 ?>
+                                </a>
+                            </li>
+                        <?php
+                        endfor;
+                        ?>
+
+                        <li class="page-item">
+                            <a class="page-link" href="view-news.php?page=<?php echo $page + 1; ?>" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
