@@ -68,7 +68,23 @@
                             </li>
                         </ul>
                     </li>
-
+                    <li>
+                        <i class="far fa-window-maximize"></i>
+                        Country
+                        <i class="fas fa-sort-down"></i>
+                        <ul class="child bg-dark">
+                            <li>
+                                <a href="add-country.php">
+                                    Add
+                                </a>
+                            </li>
+                            <li>
+                                <a href="view-country.php">
+                                    View
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li>
                         <i class="far fa-window-maximize"></i>
                         News

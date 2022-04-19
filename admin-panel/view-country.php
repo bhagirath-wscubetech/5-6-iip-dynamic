@@ -3,7 +3,8 @@ include "../app/database.php";
 include "../app/helper.php";
 $error = 0;
 $page = $_GET['page'] ?? 0;
-$limit = 10;
+$limit = 20;
+$search = trim($_GET['search']) ?? "";
 $start = $page * $limit;
 // $start = 0 * 10 = 0
 // $start = 1 * 10 = 10
@@ -20,7 +21,7 @@ if (isset($id)) {
          * update query
          * Syntax: UPDATE <table> SET <col1> = <newData>, <col2> = <newData> ... , <coln> = <newData>
          */
-        $upd = "UPDATE news SET status = $status WHERE id = $id";
+        $upd = "UPDATE countries SET status = $status WHERE id = $id";
         try {
             $flag = mysqli_query($conn, $upd);
             if ($flag) {
@@ -37,7 +38,7 @@ if (isset($id)) {
          * Step 1: Prepare the query
          * Step 2: Execute the query
          */
-        $del = "DELETE FROM news WHERE id = $id";
+        $del = "DELETE FROM countries WHERE id = $id";
         try {
             $flag = mysqli_query($conn, $del);
             if ($flag) {
@@ -56,7 +57,24 @@ include "layouts/header.php";
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 text-center mt-2">
-                <div class="h2">View News </div>
+                <div class="h2">View countries </div>
+            </div>
+            <div class="col-12 my-3">
+                <form action="">
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="text" name="search" value="<?php echo $search ?>" placeholder="Seach country" class="form-control" />
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-success" type="submit">Search</button>
+                        </div>
+                        <div class="col-1">
+                            <a href="view-country.php">
+                                <button class="btn btn-danger" type="button">Reset</button>
+                            </a>
+                        </div>
+                    </div>
+                </form>
             </div>
             <?php
             if (!empty($msg)) :
@@ -71,11 +89,10 @@ include "layouts/header.php";
             <?php
             endif;
             ?>
-
         </div>
         <div class="row">
             <div class="col-12 text-end">
-                <a href="add-news.php">
+                <a href="add-country.php">
                     <button class="btn btn-primary">
                         <i class="fa fa-plus"></i>
                     </button>
@@ -94,7 +111,12 @@ include "layouts/header.php";
                         -->
                         <?php
                         // ORDER BY <col_name> ASC | DESC
-                        $sel = "SELECT * FROM news ORDER BY id ASC LIMIT $start,$limit";
+                        $sel = "SELECT * FROM countries ";
+                        if (!empty($search)) {
+                            $sel .= "WHERE name LIKE '%$search%'";
+                        }
+                        $sel .= "ORDER BY id DESC LIMIT $start,$limit";
+                        echo $sel;
                         // start, per page
                         $exe = mysqli_query($conn, $sel);
                         /**
@@ -109,7 +131,6 @@ include "layouts/header.php";
                                 <tr>
                                     <th>Sr. No</th>
                                     <th>Title</th>
-                                    <th>Description</th>
                                     <th>Created At</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -125,10 +146,7 @@ include "layouts/header.php";
                                             <?php echo $i ?>
                                         </td>
                                         <td>
-                                            <?php echo $data['title']; ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $data['description']; ?>
+                                            <?php echo $data['name']; ?>
                                         </td>
                                         <td>
                                             <?php echo $data['created_at']; ?>
@@ -138,13 +156,13 @@ include "layouts/header.php";
                                             <?php
                                             if ($data['status'] == 1) :
                                             ?>
-                                                <a href="view-news.php?id=<?php echo $data['id'] ?>&status=0">
+                                                <a href="view-country.php?search=<?php echo $search ?>&page=<?php echo $page ?>&id=<?php echo $data['id'] ?>&status=0">
                                                     <button class="btn btn-success">Active</button>
                                                 </a>
                                             <?php
                                             else :
                                             ?>
-                                                <a href="view-news.php?id=<?php echo $data['id'] ?>&status=1">
+                                                <a href="view-country.php?search=<?php echo $search ?>&page=<?php echo $page ?>&id=<?php echo $data['id'] ?>&status=1">
                                                     <button class="btn btn-warning">Inactive</button>
                                                 </a>
                                             <?php
@@ -152,13 +170,13 @@ include "layouts/header.php";
                                             ?>
                                         </td>
                                         <td>
-                                            <a href="view-news.php?id=<?php echo $data['id'] ?>">
+                                            <a href="view-country.php?search=<?php echo $search ?>&page=<?php echo $page ?>&id=<?php echo $data['id'] ?>">
                                                 <!-- get request -->
                                                 <button class="btn btn-danger">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                             </a>
-                                            <a href="add-news.php?id=<?php echo $data['id'] ?>">
+                                            <a href="add-country.php?id=<?php echo $data['id'] ?>">
                                                 <button class="btn btn-primary">
                                                     <i class="fa fa-pencil"></i>
                                                 </button>
@@ -185,10 +203,14 @@ include "layouts/header.php";
                 </div>
             </div>
             <?php
+            $selRow =  "SELECT id FROM countries ";
+            if (!empty($search)) {
+                $selRow .= "WHERE name LIKE '%$search%'";
+            }
             $totalData = mysqli_num_rows(
                 mysqli_query(
                     $conn,
-                    "SELECT id FROM news"
+                    $selRow
                 )
             );
             $totalPage = ceil($totalData / $limit);
@@ -198,7 +220,7 @@ include "layouts/header.php";
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item">
-                            <a class="page-link" href="view-news.php?page=<?php echo $page - 1; ?>" aria-label="Previous">
+                            <a class="page-link" href="view-country.php?search=<?php echo $search ?>&page=<?php echo $page - 1; ?>" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
@@ -206,7 +228,7 @@ include "layouts/header.php";
                         for ($n = 0; $n < $totalPage; $n++) :
                         ?>
                             <li class="page-item <?php echo $n == $page ? 'active text-white' : '' ?>">
-                                <a class="page-link" href="view-news.php?page=<?php echo $n ?>">
+                                <a class="page-link" href="view-country.php?search=<?php echo $search ?>&page=<?php echo $n ?>">
                                     <?php echo $n + 1 ?>
                                 </a>
                             </li>
@@ -215,7 +237,7 @@ include "layouts/header.php";
                         ?>
 
                         <li class="page-item">
-                            <a class="page-link" href="view-news.php?page=<?php echo $page + 1; ?>" aria-label="Next">
+                            <a class="page-link" href="view-country.php?search=<?php echo $search ?>&page=<?php echo $page + 1; ?>" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
