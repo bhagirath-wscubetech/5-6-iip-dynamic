@@ -12,6 +12,25 @@ $start = $page * $limit;
 /** 0: no error , 1: yes error */
 $msg = "";
 
+if (isset($_POST['delete'])) {
+    $ids = $_POST['ids'];
+    // p($ids);
+    // array to string converstion 
+    $idsData = implode(",", $ids);
+    try {
+        mysqli_query($conn, "DELETE FROM countries WHERE id IN($idsData)");
+    } catch (\Exception $err) {
+        $error = 1;
+        $msg = "Unable to update";
+    }
+}
+if (isset($_POST['toggle'])) {
+    $ids = $_POST['ids'];
+    foreach($ids as $id){
+        toggleStatus($id,"countries");
+    }
+}
+
 $id = $_GET['id'];
 if (isset($id)) {
     $status = $_GET['status'];
@@ -126,79 +145,93 @@ include "layouts/header.php";
                         // $exe = mysqli_fetch_assoc($exe);
                         // p($exe);
                         ?>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Sr. No</th>
-                                    <th>Title</th>
-                                    <th>Created At</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $i = 1;
-                                while ($data = mysqli_fetch_assoc($exe)) :
-                                ?>
+                        <form action="" method="post">
+                            <button name="delete" class="btn btn-danger">
+                                Delete Selcted
+                            </button>
+                            <button name="toggle" class="btn btn-warning">
+                                Toggle Selcted
+                            </button>
+                            <table class="table">
+                                <thead>
                                     <tr>
-                                        <td>
-                                            <?php echo $i ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $data['name']; ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $data['created_at']; ?>
-                                        </td>
-                                        <td>
-
-                                            <?php
-                                            if ($data['status'] == 1) :
-                                            ?>
-                                                <a href="view-country.php?search=<?php echo $search ?>&page=<?php echo $page ?>&id=<?php echo $data['id'] ?>&status=0">
-                                                    <button class="btn btn-success">Active</button>
-                                                </a>
-                                            <?php
-                                            else :
-                                            ?>
-                                                <a href="view-country.php?search=<?php echo $search ?>&page=<?php echo $page ?>&id=<?php echo $data['id'] ?>&status=1">
-                                                    <button class="btn btn-warning">Inactive</button>
-                                                </a>
-                                            <?php
-                                            endif;
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <a href="view-country.php?search=<?php echo $search ?>&page=<?php echo $page ?>&id=<?php echo $data['id'] ?>">
-                                                <!-- get request -->
-                                                <button class="btn btn-danger">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                            </a>
-                                            <a href="add-country.php?id=<?php echo $data['id'] ?>">
-                                                <button class="btn btn-primary">
-                                                    <i class="fa fa-pencil"></i>
-                                                </button>
-                                            </a>
-                                        </td>
+                                        <th>
+                                            <input type="checkbox" name="" id="check-all">
+                                        </th>
+                                        <th>Sr. No</th>
+                                        <th>Title</th>
+                                        <th>Created At</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
-                                <?php
-                                    $i++;
-                                endwhile;
-                                ?>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i = 1;
+                                    while ($data = mysqli_fetch_assoc($exe)) :
+                                    ?>
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="ids[]" value="<?php echo $data['id'] ?>" id="" class="checkbox">
+                                            </td>
+                                            <td>
+                                                <?php echo $i ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $data['name']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $data['created_at']; ?>
+                                            </td>
+                                            <td>
 
-                                <?php
-                                if ($i == 1) {
-                                ?>
-                                    <tr>
-                                        <td colspan="6" align="center">No data found</td>
-                                    </tr>
-                                <?php
-                                }
-                                ?>
-                            </tbody>
-                        </table>
+                                                <?php
+                                                if ($data['status'] == 1) :
+                                                ?>
+                                                    <a href="view-country.php?search=<?php echo $search ?>&page=<?php echo $page ?>&id=<?php echo $data['id'] ?>&status=0">
+                                                        <button class="btn btn-success" type="button">Active</button>
+                                                    </a>
+                                                <?php
+                                                else :
+                                                ?>
+                                                    <a href="view-country.php?search=<?php echo $search ?>&page=<?php echo $page ?>&id=<?php echo $data['id'] ?>&status=1">
+                                                        <button class="btn btn-warning" type="button">Inactive</button>
+                                                    </a>
+                                                <?php
+                                                endif;
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <a href="view-country.php?search=<?php echo $search ?>&page=<?php echo $page ?>&id=<?php echo $data['id'] ?>">
+                                                    <!-- get request -->
+                                                    <button class="btn btn-danger" type="button">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </a>
+                                                <a href="add-country.php?id=<?php echo $data['id'] ?>">
+                                                    <button class="btn btn-primary" type="button">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                        $i++;
+                                    endwhile;
+                                    ?>
+
+                                    <?php
+                                    if ($i == 1) {
+                                    ?>
+                                        <tr>
+                                            <td colspan="6" align="center">No data found</td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -251,3 +284,11 @@ include "layouts/header.php";
 <?php
 include "layouts/footer.php";
 ?>
+<script>
+    $("#check-all").change(
+        function() {
+            var status = $(this).prop("checked")
+            $('.checkbox').prop('checked', status)
+        }
+    )
+</script>

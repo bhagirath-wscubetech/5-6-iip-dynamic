@@ -68,6 +68,14 @@
 <script>
     $('.dropify').dropify();
 </script>
+<script>
+    $("#check-all").change(
+        function() {
+            var status = $(this).prop("checked")
+            $('.checkbox').prop('checked', status)
+        }
+    )
+</script>
 </body>
 
 </html>
