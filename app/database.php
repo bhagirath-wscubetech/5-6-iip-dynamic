@@ -24,3 +24,13 @@ function toggleStatus($id, $tableName)
         echo $err->getMessage();
     }
 }
+
+
+function getCountries()
+{
+    global $conn;
+    $sel = "SELECT * FROM countries WHERE status = 1";
+    $exe = mysqli_query($conn, $sel);
+    $data = mysqli_fetch_all($exe);
+    return $data;
+}

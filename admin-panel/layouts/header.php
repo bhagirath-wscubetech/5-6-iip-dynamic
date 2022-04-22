@@ -122,16 +122,16 @@
                     </li>
                     <li>
                         <i class="far fa-window-maximize"></i>
-                        Course
+                        States
                         <i class="fas fa-sort-down"></i>
                         <ul class="child bg-dark">
                             <li>
-                                <a href="add-course.php">
+                                <a href="add-state.php">
                                     Add
                                 </a>
                             </li>
                             <li>
-                                <a href="view-course.php">
+                                <a href="view-state.php">
                                     View
                                 </a>
                             </li>

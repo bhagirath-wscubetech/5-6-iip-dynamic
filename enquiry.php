@@ -30,10 +30,17 @@ include "layouts/header.php";
 				<div class="formlable">Country : </div>
 				<div class="inputform">
 					<select name="country" id="country">
-						<option value="">---Select---</option>
-						<option value="1">India</option>
-						<option value="2">USA</option>
-						<option value="3">Australia</option>
+						<?php
+						$countries = getCountries();
+						?>
+						<option value="0">-- Select a country --</option>
+						<?php
+						foreach ($countries as $country) :
+						?>
+							<option value="<?php echo $country[0] ?>"><?php echo $country[1] ?></option>
+						<?php
+						endforeach;
+						?>
 					</select>
 				</div>
 			</div>
