@@ -26,8 +26,8 @@ if (isset($_POST['delete'])) {
 }
 if (isset($_POST['toggle'])) {
     $ids = $_POST['ids'];
-    foreach($ids as $id){
-        toggleStatus($id,"states");
+    foreach ($ids as $id) {
+        toggleStatus($id, "states");
     }
 }
 
@@ -88,7 +88,7 @@ include "layouts/header.php";
                             <button class="btn btn-success" type="submit">Search</button>
                         </div>
                         <div class="col-1">
-                            <a href="view-country.php">
+                            <a href="view-state.php">
                                 <button class="btn btn-danger" type="button">Reset</button>
                             </a>
                         </div>
@@ -130,12 +130,11 @@ include "layouts/header.php";
                         -->
                         <?php
                         // ORDER BY <col_name> ASC | DESC
-                        $sel = "SELECT * FROM states ";
+                        $sel = "SELECT states.id as state_id, states.name as state_name, countries.id as country_id, countries.name as country_name, states.created_at, states.status FROM countries RIGHT JOIN states ON states.country_id = countries.id";
                         if (!empty($search)) {
                             $sel .= "WHERE name LIKE '%$search%'";
                         }
-                        $sel .= "ORDER BY id DESC LIMIT $start,$limit";
-                        echo $sel;
+                        $sel .= " ORDER BY states.id DESC LIMIT $start,$limit";
                         // start, per page
                         $exe = mysqli_query($conn, $sel);
                         /**
@@ -170,19 +169,21 @@ include "layouts/header.php";
                                     <?php
                                     $i = 1;
                                     while ($data = mysqli_fetch_assoc($exe)) :
+                                        // p($data);
+                                        // die;
                                     ?>
                                         <tr>
                                             <td>
-                                                <input type="checkbox" name="ids[]" value="<?php echo $data['id'] ?>" id="" class="checkbox">
+                                                <input type="checkbox" name="ids[]" value="<?php echo $data['state_id'] ?>" id="" class="checkbox">
                                             </td>
                                             <td>
                                                 <?php echo $i ?>
                                             </td>
                                             <td>
-                                                <?php echo $data['name']; ?>
+                                                <?php echo $data['state_name']; ?>
                                             </td>
-                                              <td>
-                                                <?php echo $data['name']; ?>
+                                            <td>
+                                                <?php echo $data['country_name']; ?>
                                             </td>
                                             <td>
                                                 <?php echo $data['created_at']; ?>
@@ -192,13 +193,13 @@ include "layouts/header.php";
                                                 <?php
                                                 if ($data['status'] == 1) :
                                                 ?>
-                                                    <a href="view-country.php?search=<?php echo $search ?>&page=<?php echo $page ?>&id=<?php echo $data['id'] ?>&status=0">
+                                                    <a href="view-state.php?search=<?php echo $search ?>&page=<?php echo $page ?>&id=<?php echo $data['state_id'] ?>&status=0">
                                                         <button class="btn btn-success" type="button">Active</button>
                                                     </a>
                                                 <?php
                                                 else :
                                                 ?>
-                                                    <a href="view-country.php?search=<?php echo $search ?>&page=<?php echo $page ?>&id=<?php echo $data['id'] ?>&status=1">
+                                                    <a href="view-state.php?search=<?php echo $search ?>&page=<?php echo $page ?>&id=<?php echo $data['state_id'] ?>&status=1">
                                                         <button class="btn btn-warning" type="button">Inactive</button>
                                                     </a>
                                                 <?php
@@ -206,13 +207,13 @@ include "layouts/header.php";
                                                 ?>
                                             </td>
                                             <td>
-                                                <a href="view-country.php?search=<?php echo $search ?>&page=<?php echo $page ?>&id=<?php echo $data['id'] ?>">
+                                                <a href="view-state.php?search=<?php echo $search ?>&page=<?php echo $page ?>&id=<?php echo $data['state_id'] ?>">
                                                     <!-- get request -->
                                                     <button class="btn btn-danger" type="button">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
                                                 </a>
-                                                <a href="add-country.php?id=<?php echo $data['id'] ?>">
+                                                <a href="add-country.php?id=<?php echo $data['state_id'] ?>">
                                                     <button class="btn btn-primary" type="button">
                                                         <i class="fa fa-pencil"></i>
                                                     </button>
@@ -257,7 +258,7 @@ include "layouts/header.php";
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item">
-                            <a class="page-link" href="view-country.php?search=<?php echo $search ?>&page=<?php echo $page - 1; ?>" aria-label="Previous">
+                            <a class="page-link" href="view-state.php?search=<?php echo $search ?>&page=<?php echo $page - 1; ?>" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
@@ -265,7 +266,7 @@ include "layouts/header.php";
                         for ($n = 0; $n < $totalPage; $n++) :
                         ?>
                             <li class="page-item <?php echo $n == $page ? 'active text-white' : '' ?>">
-                                <a class="page-link" href="view-country.php?search=<?php echo $search ?>&page=<?php echo $n ?>">
+                                <a class="page-link" href="view-state.php?search=<?php echo $search ?>&page=<?php echo $n ?>">
                                     <?php echo $n + 1 ?>
                                 </a>
                             </li>
@@ -274,7 +275,7 @@ include "layouts/header.php";
                         ?>
 
                         <li class="page-item">
-                            <a class="page-link" href="view-country.php?search=<?php echo $search ?>&page=<?php echo $page + 1; ?>" aria-label="Next">
+                            <a class="page-link" href="view-state.php?search=<?php echo $search ?>&page=<?php echo $page + 1; ?>" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>

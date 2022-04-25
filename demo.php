@@ -42,11 +42,10 @@ $indianStates = [
 ];
 
 foreach ($indianStates as $state) {
-    try{
-        $state = mysqli_escape_string($conn,$state);
+    try {
+        $state = mysqli_escape_string($conn, $state);
         mysqli_query($conn, "INSERT INTO states SET name = '$state', country_id = 103");
-    }
-    catch(\Exception $err){
+    } catch (\Exception $err) {
         p($err->getMessage());
     }
 }
