@@ -26,8 +26,8 @@ if (isset($_POST['delete'])) {
 }
 if (isset($_POST['toggle'])) {
     $ids = $_POST['ids'];
-    foreach($ids as $id){
-        toggleStatus($id,"countries");
+    foreach ($ids as $id) {
+        toggleStatus($id, "countries");
     }
 }
 
