@@ -34,3 +34,13 @@ function getCountries()
     $data = mysqli_fetch_all($exe);
     return $data;
 }
+
+
+function getUser($email)
+{
+    global $conn;
+    $sel = "SELECT * FROM users WHERE email = '$email'";
+    $exe = mysqli_query($conn, $sel);
+    $data = mysqli_fetch_assoc($exe);
+    return $data;
+}

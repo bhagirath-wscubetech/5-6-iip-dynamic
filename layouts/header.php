@@ -25,8 +25,8 @@
                 <div class="menu-items" title="About us"><a href="about.php" title="About us">About Us</a></div>
                 <div class="menu-items"><a href="course.php">Courses</a></div>
                 <div class="menu-items"><a href="gallery.php">Gallery</a></div>
-                <div class="menu-items"><a href="enquiry.php">Enquiry</a></div>
-                <div class="menu-items"><a href="contact.php">Contact Us</a></div>
+                <div class="menu-items"><a href="register.php">Register</a></div>
+                <div class="menu-items"><a href="login.php">Login</a></div>
             </div>
         </div>
         <!-- middle portion with  links, new , banner and course starts here -->

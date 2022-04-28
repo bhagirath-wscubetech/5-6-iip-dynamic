@@ -5,7 +5,8 @@ include "layouts/header.php";
 $sel = "SELECT * FROM about_us";
 $exe = mysqli_query($conn, $sel);
 $data = mysqli_fetch_assoc($exe);
-?>
+echo $_SESSION['user_name']; //get
+?> 
 <!-- right part of the middle portion starts here -->
 <div class="middle-right">
 	<div class="page-status">

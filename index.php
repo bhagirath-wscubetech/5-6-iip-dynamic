@@ -2,6 +2,8 @@
 include "app/database.php";
 include "app/helper.php";
 include "layouts/header.php";
+//set
+$_SESSION['user_name'] = "John";
 ?>
 <!-- right part of the middle portion starts here -->
 <div class="middle-right">

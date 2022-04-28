@@ -48,27 +48,7 @@ include "layouts/header.php";
 				<div class="formlable">State : </div>
 				<div class="inputform">
 					<select name="state" id="state">
-						<option value="">---Select---</option>
-						<option value="1">Rajasthan</option>
-						<option value="2">Maharastra</option>
-						<option value="3">Punjab</option>
-						<option value="4">Kerela</option>
-						<option value="5">New York</option>
-						<option value="6">Malbourne</option>
-						<option value="7">Syndey</option>
-					</select>
-				</div>
-			</div>
-			<div class="formrow">
-				<div class="formlable">City : </div>
-				<div class="inputform">
-					<select name="city" id="city">
-						<option value="">---Select---</option>
-						<option value="1">Jodhpur</option>
-						<option value="2">Jaipur</option>
-						<option value="3">Mumbai</option>
-						<option value="4">Washington DC</option>
-						<option value="5">New York</option>
+						<option value="">---Select a country first---</option>
 					</select>
 				</div>
 			</div>
@@ -98,3 +78,30 @@ include "layouts/header.php";
 <?php
 include "layouts/footer.php";
 ?>
+
+<script>
+	$("#country").change(
+		function() {
+			var cId = $(this).val();
+			$.ajax({
+				url: "state-ajax.php",
+				type: "get",
+				data: {
+					cId: cId
+				},
+				beforeSend: function() {
+					$("#state").html(
+						`
+						<option>
+							Loading....
+						</option>
+						`
+					).attr("disabled", true)
+				},
+				success: function(respo) {
+					$("#state").html(respo).attr("disabled", false)
+				}
+			})
+		}
+	)
+</script>

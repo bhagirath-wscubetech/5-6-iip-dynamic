@@ -2,6 +2,8 @@
 include "app/database.php";
 include "app/helper.php";
 include "layouts/header.php";
+unset($_SESSION['user_name']);
+// delete
 ?>
 <div class="middle-right">
 	<div class="page-status">
@@ -15,14 +17,14 @@ include "layouts/header.php";
 			$exe = mysqli_query($conn, $sel);
 			while ($data = mysqli_fetch_assoc($exe)) :
 			?>
-				<div class="course-1" >
+				<div class="course-1">
 					<div class="course-1-icon" style="background-color: <?php echo $data['color'] ?>;">
 						<div class="icon-1">
 							<img src="images/courses/<?php echo $data['image_name'] ?>">
 						</div>
 					</div>
 
-					<div class="c-1"  style="color: <?php echo $data['color'] ?>; border-color: <?php echo $data['color'] ?>;">
+					<div class="c-1" style="color: <?php echo $data['color'] ?>; border-color: <?php echo $data['color'] ?>;">
 						<?php echo $data['name'] ?>
 					</div>
 				</div>
