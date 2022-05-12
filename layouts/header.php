@@ -25,8 +25,20 @@
                 <div class="menu-items" title="About us"><a href="about.php" title="About us">About Us</a></div>
                 <div class="menu-items"><a href="course.php">Courses</a></div>
                 <div class="menu-items"><a href="gallery.php">Gallery</a></div>
-                <div class="menu-items"><a href="register.php">Register</a></div>
-                <div class="menu-items"><a href="login.php">Login</a></div>
+                <?php
+                if (isset($_SESSION['user_id'])) :
+                ?>
+                    <div class="menu-items"><a href="register.php"><?php echo $_SESSION['user_name'] ?></a></div>
+                    <div class="menu-items"><a href="logout.php">Logout</a></div>
+                <?php
+                else :
+                ?>
+                    <div class="menu-items"><a href="register.php">Register</a></div>
+                    <div class="menu-items"><a href="login.php">Login</a></div>
+                <?php
+                endif;
+                ?>
+
             </div>
         </div>
         <!-- middle portion with  links, new , banner and course starts here -->

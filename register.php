@@ -97,20 +97,21 @@
                     type: "post",
                     data: formData,
                     beforeSend: function() {
-                        $("#response").slideUp()
+                        $("#response").hide()
                         $("#submut_btn")
                             .text("Processing...").attr("disabled", false)
                     },
                     success: function(response) {
                         var jsonRes = JSON.parse(response)
                         if (jsonRes.status == 1) {
-                            // all okay
-                            $("#response").removeClass("alert-warning").addClass("alert-success")
+                            window.location.href = "login.php";
                         } else {
                             // some error
                             $("#response").addClass("alert-warning").removeClass("alert-success")
                         }
-                        $("#response").slideDown().html(jsonRes.msg)
+                        $("#response").slideDown(1000, () => {
+                            $("#response").html(jsonRes.msg)
+                        })
                         $("#submut_btn")
                             .text("Create Account").attr("disabled", false)
                     }

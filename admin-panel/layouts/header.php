@@ -1,3 +1,9 @@
+<?php
+// p($_SESSION);
+if (!isset($_SESSION['admin_id'])) {
+    header("LOCATION:login.php");
+}
+?>
 <!doctype html>
 <html lang="en">
 
@@ -42,7 +48,13 @@
                     </a>
                 </div>
                 <div class="col">Change Password</div>
-                <div class="col">Logout</div>
+
+                <div class="col">
+                    <a href="logout.php">
+                        Logout
+                    </a>
+                </div>
+
                 <div class="col">Profile</div>
             </div>
         </div>
